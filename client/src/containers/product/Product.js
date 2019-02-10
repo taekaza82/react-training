@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Axios from "axios";
 import ProductList from "../../components/product/ProductList";
+import { withRouter } from "react-router-dom";
 
 class Product extends Component {
 
@@ -10,6 +11,7 @@ class Product extends Component {
         super(props);     
         this.state = { products : null };   
         this.delProduct = this.delProduct.bind(this);
+        this.editProduct = this.editProduct.bind(this);
 	}
 
     componentDidMount() {
@@ -31,6 +33,10 @@ class Product extends Component {
             }
         )
     }
+
+    editProduct(product) {
+        this.props.history.push('product/edit/'+product.id);
+    }
  
     render() {
 		return (
@@ -42,12 +48,13 @@ class Product extends Component {
                             <h1>สินค้า</h1>
                         </div>              
                         <div className="col-6">
-                            <button className="btn btn-success title float-right">เพิ่ม</button>
+                            <button className="btn btn-success title float-right" onClick={() => this.props.history.push('product/add')} >เพิ่ม</button>
                         </div>
                     </div> 
                     <ProductList 
                         products={this.state.products}
-                        onDelProduct={this.delProduct}                    
+                        onDelProduct={this.delProduct}       
+                        onEditProduct={this.editProduct}             
                     />       
 
                 </div>
@@ -58,4 +65,4 @@ class Product extends Component {
     
 }
 
-export default Product;
+export default withRouter(Product);
